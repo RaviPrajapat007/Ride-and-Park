@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Park & Ride - Smart Parking & Last-Mile Connectivity</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-parking"></i>
+                <h1>Park & Ride</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="#">My Bookings</a></li>
+                    <li><a href="#">Subscriptions</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <i class="fas fa-user-circle"></i>
+                <span>Ravi</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Tabs Navigation -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="parking">Parking Booking</button>
+                <button class="tab-btn" data-tab="lastmile">Last-Mile Rides</button>
+                <button class="tab-btn" data-tab="subscriptions">Subscriptions</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Parking Booking Tab -->
+                <div id="parking" class="tab-pane active">
+                    <div class="search-section">
+                        <h2>Find & Book Parking Near Metro Stations</h2>
+                        <div class="search-form">
+                            <div class="form-group">
+                                <label for="location">Metro Station</label>
+                                <select id="location">
+                                    <option value="">Select a station</option>
+                                    <option value="central">India Gate</option>
+                                    <option value="north">Chandni Chowk</option>
+                                    <option value="east">Rajeev Chowk</option>
+                                    <option value="west">Akshardham</option>
+                                    <option value="south">Botanical Garden</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Date</label>
+                                <input type="date" id="date" min="">
+                            </div>
+                            <div class="form-group">
+                                <label for="time">Time</label>
+                                <input type="time" id="time">
+                            </div>
+                            <div class="form-group">
+                                <label for="duration">Duration</label>
+                                <select id="duration">
+                                    <option value="1">1 Hour</option>
+                                    <option value="2">2 Hours</option>
+                                    <option value="4">4 Hours</option>
+                                    <option value="8">8 Hours</option>
+                                    <option value="24">Full Day</option>
+                                </select>
+                            </div>
+                            <button id="search-btn" class="primary-btn">Search Availability</button>
+                        </div>
+                    </div>
+
+                    <div class="results-section" id="parking-results">
+                        <h3>Available Parking Spots</h3>
+                        <div class="results-container">
+                            <!-- Results will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="parking-map">
+                        <h3>Parking Map</h3>
+                        <div class="map-container">
+                            <div class="map-placeholder">
+                                <i class="fas fa-map-marked-alt"></i>
+                                <p>Select a location to view the parking map</p>
+                            </div>
+                            <div class="map-view" style="display: none;">
+                                <!-- Simplified parking map -->
+                                <div class="parking-layout">
+                                    <div class="entrance">Entrance/Exit</div>
+                                    <div class="parking-grid">
+                                        <!-- Parking spots will be generated by JavaScript -->
+                                    </div>
+                                    <div class="metro-station">Metro Station Access</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Last-Mile Rides Tab -->
+                <div id="lastmile" class="tab-pane">
+                    <div class="search-section">
+                        <h2>Book Last-Mile Transportation</h2>
+                        <div class="search-form">
+                            <div class="form-group">
+                                <label for="ride-from">From</label>
+                                <select id="ride-from">
+                                    <option value="">Select a station</option>
+                                    <option value="central">India Gate</option>
+                                    <option value="north">Chandni Chowk</option>
+                                    <option value="east">Rajeev Chowk</option>
+                                    <option value="west">Akshardham</option>
+                                    <option value="south">Botanical Garden</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ride-to">To</label>
+                                <input type="text" id="ride-to" placeholder="Enter destination">
+                            </div>
+                            <div class="form-group">
+                                <label for="ride-time">When</label>
+                                <select id="ride-time">
+                                    <option value="now">Now</option>
+                                    <option value="15">In 15 minutes</option>
+                                    <option value="30">In 30 minutes</option>
+                                    <option value="60">In 1 hour</option>
+                                    <option value="custom">Custom time</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="custom-time-group" style="display: none;">
+                                <label for="custom-time">Custom Time</label>
+                                <input type="time" id="custom-time">
+                            </div>
+                            <button id="ride-search-btn" class="primary-btn">Find Rides</button>
+                        </div>
+                    </div>
+
+                    <div class="ride-options" id="ride-options">
+                        <h3>Available Ride Options</h3>
+                        <div class="ride-filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="cab">Cab</button>
+                            <button class="filter-btn" data-filter="shuttle">Shuttle</button>
+                            <button class="filter-btn" data-filter="erickshaw">E-Rickshaw</button>
+                        </div>
+                        <div class="ride-results">
+                            <!-- Ride options will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subscriptions Tab -->
+                <div id="subscriptions" class="tab-pane">
+                    <h2>Subscription Plans</h2>
+                    <p class="subscription-intro">Save money and enjoy hassle-free commuting with our subscription plans</p>
+                    
+                    <div class="subscription-cards">
+                        <div class="subscription-card">
+                            <div class="card-header">
+                                <h3>Basic</h3>
+                                <div class="price">₹999<span>/month</span></div>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    <li><i class="fas fa-check"></i> 10 parking sessions per month</li>
+                                    <li><i class="fas fa-check"></i> 5 last-mile rides</li>
+                                    <li><i class="fas fa-check"></i> Standard booking window (7 days)</li>
+                                    <li><i class="fas fa-check"></i> Basic loyalty points</li>
+                                    <li><i class="fas fa-times"></i> Priority parking spots</li>
+                                </ul>
+                                <button class="subscription-btn">Subscribe Now</button>
+                            </div>
+                        </div>
+                        
+                        <div class="subscription-card premium">
+                            <div class="card-header">
+                                <h3>Premium</h3>
+                                <div class="price">₹1999<span>/month</span></div>
+                                <div class="popular-tag">Most Popular</div>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    <li><i class="fas fa-check"></i> 20 parking sessions per month</li>
+                                    <li><i class="fas fa-check"></i> 15 last-mile rides</li>
+                                    <li><i class="fas fa-check"></i> Extended booking window (14 days)</li>
+                                    <li><i class="fas fa-check"></i> 2x loyalty points</li>
+                                    <li><i class="fas fa-check"></i> Priority parking spots</li>
+                                </ul>
+                                <button class="subscription-btn">Subscribe Now</button>
+                            </div>
+                        </div>
+                        
+                        <div class="subscription-card">
+                            <div class="card-header">
+                                <h3>Ultimate</h3>
+                                <div class="price">₹2999<span>/month</span></div>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    <li><i class="fas fa-check"></i> Unlimited parking sessions</li>
+                                    <li><i class="fas fa-check"></i> 30 last-mile rides</li>
+                                    <li><i class="fas fa-check"></i> Premium booking window (30 days)</li>
+                                    <li><i class="fas fa-check"></i> 3x loyalty points</li>
+                                    <li><i class="fas fa-check"></i> Guaranteed parking spots</li>
+                                </ul>
+                                <button class="subscription-btn">Subscribe Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Booking Modal -->
+        <div id="booking-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Confirm Your Booking Now</h2>
+                <div class="booking-details">
+                    <div class="booking-info">
+                        <p><strong>Location:</strong> <span id="modal-location"></span></p>
+                        <p><strong>Date:</strong> <span id="modal-date"></span></p>
+                        <p><strong>Time:</strong> <span id="modal-time"></span></p>
+                        <p><strong>Duration:</strong> <span id="modal-duration"></span></p>
+                        <p><strong>Spot:</strong> <span id="modal-spot"></span></p>
+                        <p><strong>Price:</strong> <span id="modal-price"></span></p>
+                    </div>
+                    <div class="vehicle-info">
+                        <h3>Vehicle Information</h3>
+                        <div class="form-group">
+                            <label for="vehicle-number">License Plate Number</label>
+                            <input type="text" id="vehicle-number" placeholder="Enter vehicle number">
+                        </div>
+                        <div class="form-group">
+                            <label for="vehicle-type">Vehicle Type</label>
+                            <select id="vehicle-type">
+                                <option value="car">Car</option>
+                                <option value="bike">Bike</option>
+                                <option value="suv">SUV</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <h3>Payment Method</h3>
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="wallet" checked>
+                                <span class="option-label"><i class="fas fa-wallet"></i> Wallet Balance (₹500)</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="card">
+                                <span class="option-label"><i class="fas fa-credit-card"></i> Credit/Debit Card</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="upi">
+                                <span class="option-label"><i class="fas fa-mobile-alt"></i> UPI</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button id="confirm-booking" class="primary-btn">Confirm & Pay</button>
+                    <button class="secondary-btn close-modal-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ride Booking Modal -->
+        <div id="ride-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Confirm Your Ride</h2>
+                <div class="booking-details">
+                    <div class="booking-info">
+                        <p><strong>From:</strong> <span id="ride-modal-from"></span></p>
+                        <p><strong>To:</strong> <span id="ride-modal-to"></span></p>
+                        <p><strong>Time:</strong> <span id="ride-modal-time"></span></p>
+                        <p><strong>Vehicle Type:</strong> <span id="ride-modal-type"></span></p>
+                        <p><strong>Price:</strong> <span id="ride-modal-price"></span></p>
+                    </div>
+                    <div class="ride-options">
+                        <h3>Ride Preferences</h3>
+                        <div class="form-group">
+                            <label for="passengers">Number of Passengers</label>
+                            <select id="passengers">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="luggage">Luggage</label>
+                            <select id="luggage">
+                                <option value="none">None</option>
+                                <option value="small">Small</option>
+                                <option value="medium">Medium</option>
+                                <option value="large">Large</option>
+                            </select>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="pool-ride">
+                                <span>Allow pooling to reduce fare</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <h3>Payment Method</h3>
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="ride-payment" value="wallet" checked>
+                                <span class="option-label"><i class="fas fa-wallet"></i> Wallet Balance (₹500)</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="ride-payment" value="card">
+                                <span class="option-label"><i class="fas fa-credit-card"></i> Credit/Debit Card</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="ride-payment" value="upi">
+                                <span class="option-label"><i class="fas fa-mobile-alt"></i> UPI</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button id="confirm-ride" class="primary-btn">Confirm & Pay</button>
+                    <button class="secondary-btn close-modal-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="success-modal" class="modal">
+            <div class="modal-content success-content">
+                <span class="close-modal">&times;</span>
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Booking Successful!</h2>
+                <p id="success-message">Your booking has been confirmed.</p>
+                <div class="qr-code">
+                    <div class="qr-placeholder">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <p>Scan this QR code at the entrance</p>
+                </div>
+                <div class="booking-reference">
+                    <p><strong>Booking ID:</strong> <span id="booking-id"></span></p>
+                </div>
+                <div class="modal-actions">
+                    <button id="download-pass" class="primary-btn">Download Pass</button>
+                    <button id="view-bookings" class="secondary-btn">View My Bookings</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Offline Mode Banner -->
+        <div id="offline-banner" class="offline-banner" style="display: none;">
+            <i class="fas fa-wifi-slash"></i>
+            <span>You're currently offline. Some features may be limited.</span>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Park & Ride</h3>
+                <p>Smart Parking & Last-Mile Connectivity Solution</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">How It Works</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-envelope"></i> support@parkandride.com</p>
+                <p><i class="fas fa-phone"></i> +91 1234567890</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Park & Ride. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
